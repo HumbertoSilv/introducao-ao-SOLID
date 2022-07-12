@@ -18,7 +18,7 @@ class UsersRepository implements IUsersRepository {
     return UsersRepository.INSTANCE;
   }
 
-  create({ name, email }: ICreateUserDTO): User {
+  public create({ name, email }: ICreateUserDTO): User {
     const newUser = new User();
 
     Object.assign(newUser, {
@@ -31,19 +31,19 @@ class UsersRepository implements IUsersRepository {
     return newUser;
   }
 
-  findById(id: string): User | undefined {
+  public findById(id: string): User | undefined {
     const user = this.users.find((user) => user.id === id);
 
     return user;
   }
 
-  findByEmail(email: string): User | undefined {
+  public findByEmail(email: string): User | undefined {
     const userEmail = this.users.find((user) => user.email === email);
 
     return userEmail;
   }
 
-  turnAdmin(receivedUser: User): User {
+  public turnAdmin(receivedUser: User): User {
     const indexUser = this.users.findIndex(
       (user) => user.id === receivedUser.id
     );
@@ -53,7 +53,7 @@ class UsersRepository implements IUsersRepository {
     return receivedUser;
   }
 
-  list(): User[] {
+  public list(): User[] {
     return this.users;
   }
 }
