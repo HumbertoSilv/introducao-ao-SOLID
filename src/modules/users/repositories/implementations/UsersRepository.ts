@@ -49,8 +49,9 @@ class UsersRepository implements IUsersRepository {
     );
 
     this.users[indexUser].admin = true;
+    this.users[indexUser].updated_at = new Date();
 
-    return receivedUser;
+    return this.users[indexUser];
   }
 
   public list(): User[] {
