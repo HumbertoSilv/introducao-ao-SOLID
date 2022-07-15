@@ -1,0 +1,220 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "This is a registration API",
+        "version": "1.0.0",
+        "contact": {
+            "email": "email@gmail.com.br"
+        }
+    },
+    "paths": {
+        "/users": {
+          "post": {
+              "summary": "Create user.",
+              "description": "The route must receive `name`, and `email` inside the body of the request so that it is possible to register a user.",
+              "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "name": "Bob",
+                          "email":"email@gmail.com.br"
+                        }
+                      }
+                    }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Success",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                          "type": "object",
+                          "example": {
+                              "name": "Bob",
+                              "eamil": "email@gmail.com.br",
+                              "admin": false,
+                              "id": "b56a87d6-7869-4515-8f86-647aa4136c36",
+                              "create_at": "2022-07-13T17:53:39.970Z",
+                              "update_at": "2022-07-13T17:53:39.970Z"
+                            }
+                          }
+                        }
+                      }
+                    },
+                  "400": {
+                      "description": "Error",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "example": {
+                                  "Error": "Email already exists"
+                              }
+                          }
+                        }
+                      }
+                  }
+              }
+          },
+          "get": {
+            "summary":"List users.",
+            "description": "The route must receive, through the request header, a user_id property containing the user's id and return a list of all registered users. The id should be used to validate that the user requesting the listing is an admin. Returning the list should only be done if the user is admin.",
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                    "type": "array",
+                    "example": [
+                      {
+                        "name": "Bob",
+                        "eamil": "email@gmail.com.br",
+                        "admin": true,
+                        "id": "b56a87d6-7869-4515-8f86-647aa4136c36",
+                        "create_at": "2022-07-13T17:53:39.970Z",
+                        "update_at": "2022-07-13T17:53:39.970Z"
+                      },
+                      {
+                        "name": "Bob",
+                        "eamil": "email@gmail.com.br",
+                        "admin": true,
+                        "id": "b56a87d6-7869-4515-8f86-647aa4136c36",
+                        "create_at": "2022-07-13T17:53:39.970Z",
+                        "update_at": "2022-07-13T17:53:39.970Z"
+                      }
+                    ]
+                    }
+                  }
+                }
+              },
+              "403": {
+                "description": "Forbiden",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                    "type": "object",
+                    "example": {
+                        "Error": "User not admin."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "summary": "Update user.",
+                "description": "The route must receive, in the route parameters, the id of a user and transform this user into admin.",
+                "parameters": [
+                  {
+                    "name": "user_id",
+                    "in": "path",
+                    "description": "ID of user",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Success",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                        "type": "object",
+                        "example": {
+                            "name": "Bob",
+                            "eamil": "email@gmail.com.br",
+                            "admin": true,
+                            "id": "b56a87d6-7869-4515-8f86-647aa4136c36",
+                            "create_at": "2022-07-13T17:53:39.970Z",
+                            "update_at": "2022-07-13T17:53:39.970Z"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                        "type": "object",
+                        "example": {
+                            "Error": "User not found."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+            }
+        },
+        "/users/{user_id}": {
+          "get": {
+            "summary":"View profile.",
+            "description": "The route must receive, in the route parameters, the id of a user and return the information of the user found by the body of the response.",
+            "parameters": [
+              {
+                "name": "user_id",
+                "in": "path",
+                "description": "ID of user",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                    "type": "object",
+                    "example": {
+                        "name": "Bob",
+                        "eamil": "email@gmail.com.br",
+                        "admin": true,
+                        "id": "b56a87d6-7869-4515-8f86-647aa4136c36",
+                        "create_at": "2022-07-13T17:53:39.970Z",
+                        "update_at": "2022-07-13T17:53:39.970Z"
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Not found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                    "type": "object",
+                    "example": {
+                        "Error": "User not found."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    }
+}
